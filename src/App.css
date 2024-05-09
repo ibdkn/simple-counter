@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
   text-align: center;
   display: flex;
@@ -11,6 +15,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 50px;
 }
 
