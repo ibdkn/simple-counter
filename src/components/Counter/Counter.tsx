@@ -3,8 +3,12 @@ import s from "./Counter.module.css"
 import {Options} from "../Options/Options";
 import {ChangeEvent, useEffect, useState} from "react";
 
-type CounterProps = {};
+type CounterProps = {
+
+};
+
 export const Counter = (props: CounterProps) => {
+
     const initialMaxValue = 5;
     const zero = 0;
     const step = 1;
@@ -27,15 +31,14 @@ export const Counter = (props: CounterProps) => {
     const isValidStartValue = startValue >= maxValue || startValue < 0;
     const isMaxValue = maxValue === resultValue;
     const isStartValue = resultValue === startValue;
+    const isInvalidSettingsData = error === 'Invalid value';
 
     useEffect(() => {
         if (maxValue <= startValue || maxValue < zero || startValue < zero) {
             setError('Invalid value');
-        } else if (valuesChanged) { 
+        } else if (valuesChanged) {
             setError('Enter values and press "Set"')
         }
-        setLocalStorageNumber('startValue', startValue);
-        setLocalStorageNumber('maxValue', maxValue);
     }, [maxValue, startValue, valuesChanged]);
 
     const changeMaxValue = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +51,7 @@ export const Counter = (props: CounterProps) => {
 
     const changeStartValue = (e: ChangeEvent<HTMLInputElement>) => {
         setStartValue(+e.currentTarget.value);
-        setValuesChanged(true); 
+        setValuesChanged(true);
         if (error !== 'Invalid value') {
             setError('Enter values and press "Set"')
         }
@@ -57,6 +60,8 @@ export const Counter = (props: CounterProps) => {
     const setInitialData = () => {
         setResultValue(startValue);
         setError('');
+        setLocalStorageNumber('startValue', startValue);
+        setLocalStorageNumber('maxValue', maxValue);
     }
 
     const incrementValue = () => {
@@ -89,6 +94,7 @@ export const Counter = (props: CounterProps) => {
                 <div className={s.Controls}>
                     <Button
                         title="set"
+                        disabled={isInvalidSettingsData}
                         callback={setInitialData}
                     />
                 </div>
@@ -108,7 +114,7 @@ export const Counter = (props: CounterProps) => {
                 <div className={s.Controls}>
                     <Button
                         title="inc"
-                        disabled={error !== '' || isMaxValue }
+                        disabled={error !== '' || isMaxValue}
                         callback={incrementValue}
                     />
                     <Button
